@@ -94,6 +94,7 @@
 #define ENV_URI		"URI"
 #define ENV_IP		"IP"
 #define ENV_HOST	"HOST"		/* Remote Host */
+#define ENV_METHOD	"METHOD"
 #define ENV_HTTP_HOST	"HTTP_HOST"	/* Local Host */
 #define ENV_CONTEXT	"CONTEXT"	/* Arbitrary Data from Config */
 /* Undefine this if you do not want cookies passed to the script */
@@ -392,7 +393,7 @@ static void extchilderr(apr_pool_t *p, apr_status_t err, const char *desc)
  *   -5   apr_proc_wait() returned before child finished.  Should never happen.
  */
 static int exec_external(const char *extpath, const char *extmethod,
-		const request_rec *r, const char *dataname, const char *data)
+		request_rec *r, const char *dataname, const char *data)
 {
     conn_rec *c= r->connection;
     apr_pool_t *p= r->pool;
@@ -405,7 +406,9 @@ static int exec_external(const char *extpath, const char *extmethod,
     const char *t;
     int i, status= -4;
     apr_exit_why_e why= APR_PROC_EXIT;
+#ifndef _WINDOWS
     apr_sigfunc_t *sigchld;
+#endif
 
     /* Set various flags based on the execution method */
 
@@ -439,15 +442,18 @@ static int exec_external(const char *extpath, const char *extmethod,
 
 	child_env[i++]= apr_pstrcat(p, "AUTHTYPE=", dataname, NULL);
 
-	remote_host= ap_get_remote_host(c, r->per_dir_config, REMOTE_HOST,NULL);
+	remote_host= ap_get_useragent_host(r, REMOTE_HOST, NULL);
 	if (remote_host != NULL)
-	    child_env[i++]= apr_pstrcat(p, ENV_HOST"=", remote_host,NULL);
+	    child_env[i++]= apr_pstrcat(p, ENV_HOST"=", remote_host, NULL);
 
 	if (r->useragent_ip)
 	    child_env[i++]= apr_pstrcat(p, ENV_IP"=", r->useragent_ip, NULL);
 
 	if (r->uri)
 	    child_env[i++]= apr_pstrcat(p, ENV_URI"=", r->uri, NULL);
+
+        if (r->method)
+            child_env[i++]= apr_pstrcat(r->pool, ENV_METHOD"=", r->method, NULL);
 
 	if ((host= apr_table_get(r->headers_in, "Host")) != NULL)
 	    child_env[i++]= apr_pstrcat(p, ENV_HTTP_HOST"=", host, NULL);
@@ -503,8 +509,11 @@ static int exec_external(const char *extpath, const char *extmethod,
     }
 
     /* Sometimes other modules wil mess up sigchild.  Need to fix it for
-     * the wait call to work correctly.  */
+     * the wait call to work correctly. (However, there's no need to fix
+     * the handler on Windows, since there are no signals on Windows.) */
+#ifndef _WINDOWS
     sigchld= apr_signal(SIGCHLD,SIG_DFL);
+#endif
 
     /* Start the child process */
     rc= apr_proc_create(&proc, child_arg[0],
@@ -546,7 +555,9 @@ static int exec_external(const char *extpath, const char *extmethod,
     rc= apr_proc_wait(&proc,&status,&why,APR_WAIT);
 
     /* Restore sigchild to whatever it was before we reset it */
+#ifndef _WINDOWS
     apr_signal(SIGCHLD,sigchld);
+#endif
 
     if (!APR_STATUS_IS_CHILD_DONE(rc))
     {

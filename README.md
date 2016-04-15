@@ -3,13 +3,15 @@ Please check the subdirs for more info.
 * mod_authnz_external
 <pre>
                    Mod_Authnz_External version 3.3.x
-     Original Coder: Nathan Neulinger <nneul@umr.edu>
-Previous Maintainer: Tyler Allison    <allison@nas.nasa.gov>
- Current Maintainer: Jan Wolter       http://www.unixpapa.com
-    Apache 2.0 Port: Dave Woolaway    <dave@watersheep.org>
-                     Sven Koch        <haegar@sdinet.de>
-    Apache 2.2 Port: Jan Wolter       http://www.unixpapa.com
-    Apache 2.4 Port: Jan Wolter       http://www.unixpapa.com
+      Original Coder: Nathan Neulinger &lt;nneul@umr.edu&gt;
+Previous Maintainers: Tyler Allison    &lt;allison@nas.nasa.gov&gt;
+                      Jan Wolter       http://www.unixpapa.com
+                                       (died Jan 1, 2015)
+  Current Maintainer: Unknown
+     Apache 2.0 Port: Dave Woolaway    &lt;dave@watersheep.org&gt;
+                      Sven Koch        &lt;haegar@sdinet.de&gt;
+     Apache 2.2 Port: Jan Wolter       http://www.unixpapa.com
+     Apache 2.4 Port: Jan Wolter       http://www.unixpapa.com
 </pre>
 
 * mod_authz_unixgroup

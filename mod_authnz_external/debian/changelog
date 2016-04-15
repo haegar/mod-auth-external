@@ -1,3 +1,13 @@
+libapache2-mod-authnz-external (3.3.2-0.1+sdinetH3) unstable; urgency=medium
+
+  * Non-maintainer upload.
+  * Replaced ap_get_remote_host() call with ap_get_useragent_host().
+    Report by Robert Dinse <nanook@eskimo.com> that the former API
+    function is no longer available with Apache 2.4.19+
+  * Export HTTP method as $METHOD
+
+ -- Sven-Haegar Koch <haegar@sdinet.de>  Fri, 15 Apr 2016 01:40:23 +0200
+
 libapache2-mod-authnz-external (3.3.2-0.1) unstable; urgency=low
 
   * Non-maintainer upload.

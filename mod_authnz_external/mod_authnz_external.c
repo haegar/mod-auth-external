@@ -94,6 +94,7 @@
 #define ENV_URI		"URI"
 #define ENV_IP		"IP"
 #define ENV_HOST	"HOST"		/* Remote Host */
+#define ENV_METHOD	"METHOD"
 #define ENV_HTTP_HOST	"HTTP_HOST"	/* Local Host */
 #define ENV_CONTEXT	"CONTEXT"	/* Arbitrary Data from Config */
 /* Undefine this if you do not want cookies passed to the script */
@@ -448,6 +449,9 @@ static int exec_external(const char *extpath, const char *extmethod,
 
 	if (r->uri)
 	    child_env[i++]= apr_pstrcat(p, ENV_URI"=", r->uri, NULL);
+
+        if (r->method)
+            child_env[i++]= apr_pstrcat(r->pool, ENV_METHOD"=", r->method, NULL);
 
 	if ((host= apr_table_get(r->headers_in, "Host")) != NULL)
 	    child_env[i++]= apr_pstrcat(p, ENV_HTTP_HOST"=", host, NULL);

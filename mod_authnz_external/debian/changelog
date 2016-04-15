@@ -1,0 +1,37 @@
+libapache2-mod-authnz-external (3.3.2-0.1) unstable; urgency=low
+
+  * Non-maintainer upload.
+  * New upstream release needed for Apache 2.4.1+.
+  * debian/control: fix description (Closes: #614073)
+
+ -- Petr Čech <cech@debian.org>  Tue, 06 May 2014 13:51:49 +0200
+
+libapache2-mod-authnz-external (3.3.1-0.1) unstable; urgency=low
+
+  * Non-maintainer upload.
+  * New upstream release, suitable for Apache 2.4 (closes: #633638).
+  * Port packaging to Apache 2.4 (closes: #666815).
+  * Update debian/watch.
+
+ -- Colin Watson <cjwatson@debian.org>  Wed, 10 Jul 2013 22:04:38 +0100
+
+libapache2-mod-authnz-external (3.2.4-2.1) unstable; urgency=high
+
+  * Non-maintainer upload by the security team
+  * Fix SQL injection via the $user paramter (Closes: #633637)
+    Fixes: CVE-2011-2688
+
+ -- Steffen Joeris <white@debian.org>  Mon, 18 Jul 2011 10:26:11 +1000
+
+libapache2-mod-authnz-external (3.2.4-2) unstable; urgency=low
+
+  * libapache2-mod-authnz-external does not install the .load file
+    (Closes: #534492)
+
+ -- Hai Zaar <haizaar@haizaar.com>  Fri, 26 Jun 2009 11:08:21 +0300
+
+libapache2-mod-authnz-external (3.2.4-1) unstable; urgency=low
+
+  * Initial release (Closes: #526786)
+
+ -- Hai Zaar <haizaar@haizaar.com>  Sun, 21 May 2009 17:02:00 +0300

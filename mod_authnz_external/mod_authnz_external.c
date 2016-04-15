@@ -393,7 +393,7 @@ static void extchilderr(apr_pool_t *p, apr_status_t err, const char *desc)
  *   -5   apr_proc_wait() returned before child finished.  Should never happen.
  */
 static int exec_external(const char *extpath, const char *extmethod,
-		const request_rec *r, const char *dataname, const char *data)
+		request_rec *r, const char *dataname, const char *data)
 {
     conn_rec *c= r->connection;
     apr_pool_t *p= r->pool;
@@ -442,9 +442,9 @@ static int exec_external(const char *extpath, const char *extmethod,
 
 	child_env[i++]= apr_pstrcat(p, "AUTHTYPE=", dataname, NULL);
 
-	remote_host= ap_get_remote_host(c, r->per_dir_config, REMOTE_HOST,NULL);
+	remote_host= ap_get_useragent_host(r, REMOTE_HOST, NULL);
 	if (remote_host != NULL)
-	    child_env[i++]= apr_pstrcat(p, ENV_HOST"=", remote_host,NULL);
+	    child_env[i++]= apr_pstrcat(p, ENV_HOST"=", remote_host, NULL);
 
 	if (r->useragent_ip)
 	    child_env[i++]= apr_pstrcat(p, ENV_IP"=", r->useragent_ip, NULL);
